@@ -8,9 +8,11 @@ var bitmapFont;
 var colors=["transparent","#00FF00"];
 
 
+
 function radians(degrees) {
 	return degrees*Math.PI/180; 
 }
+
 
 
 function rnd(x) {

@@ -5,9 +5,9 @@ var FPS = 12;
 
 var bitmapFont;
 
-var colors=["#000000","#FFFFFF"];
-
 var i,j,k,l;
+
+var maxx,maxy;
 
 
 
@@ -61,7 +61,7 @@ function print(font,text,x,y,colors) {
 
 
 
-function box(font,x0,y0,x1,y1,colors) {
+function drawBox(font,x0,y0,x1,y1,colors) {
 
 	if(x0>x1) { var t=x0; x0=x1; x1=t; }
 	if(y0>y1) { var t=y0; y0=y1; y1=t; }
@@ -70,12 +70,6 @@ function box(font,x0,y0,x1,y1,colors) {
 	var y=y0;
 	var w=x1-x0+1;
 	var h=y1-y0+1;
-
-	for(var j=0;j<h-2;j++) {
-		for(var i=0;i<w-2;i++) {
-			drawBitmap(font,32,(x+i+1)*font.width*font.size,(y+j+1)*font.height*font.size,colors);
-		}
-	}			
 
 	for(var i=0;i<w-2;i++) {
 		drawBitmap(font,196,(x+i+1)*font.width*font.size,y*font.height*font.size,colors);
@@ -96,38 +90,59 @@ function box(font,x0,y0,x1,y1,colors) {
 
 
 
-function draw() {	
+function fillWindow(font,frame,x,y,w,h,colors) {
 
-	var maxx=Math.floor(canvas.width/(bitmapFont.width*bitmapFont.size));
-	var maxy=Math.floor(canvas.height/(bitmapFont.height*bitmapFont.size));
+	for(var j=0;j<h;j++) {
+		for(var i=0;i<w;i++) {
+			drawBitmap(font,frame,(x+i)*font.width*font.size,(y+j)*font.height*font.size,colors);
+		}
+	}			
 
-	box(bitmapFont,i,j,k,l,colors);
-
-	i+=1;
-	j+=1;
-	k-=1;
-	l-=1;
-
-	if(i>maxx-1) i=0;
-	if(j>maxy-1) j=0;
-	if(k<0) k=maxx-1;
-	if(l<0) l=maxy-1;
 }
 
 
 
-function main() {
+function drawWindow(font,x,y,w,h,colors) {
+
+	fillWindow(font,32,x,y,w,h,colors);
+
+	drawBox(font,x,y,x+w-1,y+h-1,colors);
+
+}
+
+
+
+function draw() {	
+	fillWindow(bitmapFont,11*16+1,0,0,maxx,maxy,["#000000","#FFFFFF"]);
+	drawWindow(bitmapFont,3,3,16,8,["#0000FF","#FFFFFF"]);
+	print(bitmapFont,"Hello World",4,4,["#000000","#00FF00"]);
+}
+
+
+
+function resize() {
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 
 	ctx.fillStyle="#000000";
 	ctx.fillRect(0,0,canvas.width,canvas.height);
 
-	bitmapFont=new Bitmap(8,8,256,4,font);
+	maxx=Math.floor(canvas.width/(bitmapFont.width*bitmapFont.size));
+	maxy=Math.floor(canvas.height/(bitmapFont.height*bitmapFont.size));
 
-	i=0; j=0; 
-	k=Math.floor(canvas.width/(bitmapFont.width*bitmapFont.size))-1;
-	l=Math.floor(canvas.height/(bitmapFont.height*bitmapFont.size))-1;
+	i=0; j=0; k=maxx; l=maxy;
+
+}
+
+
+
+function main() {
+
+	bitmapFont=new Bitmap(8,8,256,2,font);
+
+	resize();
+
+	window.onresize=resize;
 
 	setInterval(draw,1000/FPS);
 }

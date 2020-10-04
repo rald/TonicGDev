@@ -1,13 +1,15 @@
 var canvas=document.getElementById("canvas");
 var ctx=canvas.getContext("2d");
 
-var FPS = 60;
+var FPS = 12;
 
 var bitmapFont;
 
 var colors=["#000000","#FFFFFF"];
 
-var i=0,j=0,k=23,l=25;
+var i,j,k,l;
+
+var maxx,maxy;
 
 
 
@@ -60,7 +62,8 @@ function print(font,text,x,y,colors) {
 }
 
 
-function box(font,x0,y0,x1,y1,colors) {
+
+function drawBox(font,x0,y0,x1,y1,colors) {
 
 	if(x0>x1) { var t=x0; x0=x1; x1=t; }
 	if(y0>y1) { var t=y0; y0=y1; y1=t; }
@@ -84,36 +87,72 @@ function box(font,x0,y0,x1,y1,colors) {
 	drawBitmap(font,191,(x+w-1)*font.width*font.size,y*font.height*font.size,colors);
 	drawBitmap(font,192,x*font.width*font.size,(y+h-1)*font.height*font.size,colors);
 	drawBitmap(font,217,(x+w-1)*font.width*font.size,(y+h-1)*font.height*font.size,colors);
-	
+
+}
+
+
+function drawWindow(font,x0,y0,x1,y1,colors) {
+
+	if(x0>x1) { var t=x0; x0=x1; x1=t; }
+	if(y0>y1) { var t=y0; y0=y1; y1=t; }
+
+	var x=x0;
+	var y=y0;
+	var w=x1-x0+1;
+	var h=y1-y0+1;
+
+	for(var j=0;j<h-2;j++) {
+		for(var i=0;i<w-2;i++) {
+			drawBitmap(font,32,(x+i+1)*font.width*font.size,(y+j+1)*font.height*font.size,colors);
+		}
+	}			
+
+	drawBox(font,x0,y0,x1,y1,colors);
+
 }
 
 
 
 function draw() {	
 
+	drawWindow(bitmapFont,i,j,k,l,colors);
 
-	box(bitmapFont,i,j,k,l,colors);
-	i+=2;
-	j+=2;
-	k-=2;
-	l-=2;
+	i+=1;
+	j+=1;
+	k-=1;
+	l-=1;
 
-	if(i>23) i=0;
-	if(j>25) j=0;
-	if(k<0) k=23;
-	if(l<0) l=25;
+	if(i>maxx) i=0;
+	if(j>maxy) j=0;
+	if(k<0) k=maxx;
+	if(l<0) l=maxy;
 }
 
 
 
-function main() {
+function resize() {
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 
 	ctx.fillStyle="#000000";
 	ctx.fillRect(0,0,canvas.width,canvas.height);
 
+	maxx=Math.floor(canvas.width/(bitmapFont.width*bitmapFont.size))-1;
+	maxy=Math.floor(canvas.height/(bitmapFont.height*bitmapFont.size))-1;
+
+	i=0; j=0; k=maxx; l=maxy;
+
+}
+
+
+
+function main() {
+
 	bitmapFont=new Bitmap(8,8,256,4,font);
+
+	resize();
+
+	window.onresize=resize;
 
 	setInterval(draw,1000/FPS);
 }
