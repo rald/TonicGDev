@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TonicG</title>
+	</head>
+	<body>
+
+		<canvas id="canvas"></canvas>
+
+		<script>
+
+var FPS=60;
+
+var canvas=document.getElementById("canvas");
+var ctx=canvas.getContext("2d");
+
+canvas.width = 512;
+canvas.height = 512;
+
+var rx=0,ry=0,rz=0;
+var ax=0,ay=0,az=0;
+var gx=0,gy=0,gz=0;
+var oa=0,ob=0,og=0;
+
+var frames=0;
+
+
+function radians(degrees) {
+	return degrees*Math.PI/180;
+}
+
+function handleOrientation(e) {
+	oa = e.alpha;
+	ob = e.beta;
+	og = e.gamma;
+}
+
+function handleMotion(e) {
+	rx = e.rotationRate.alpha;
+	ry = e.rotationRate.beta;
+	rz = e.rotationRate.gamma;
+	ax = e.acceleration.x;
+	ay = e.acceleration.y;
+	az = e.acceleration.z;
+	gx = e.accelerationIncludingGravity.x;
+	gy = e.accelerationIncludingGravity.y;
+	gz = e.accelerationIncludingGravity.z;
+}
+
+
+function spc(n) {
+	var s="";
+	for(var i=0;i<n;i++) {
+		s+=" ";
+	}
+	return s
+}
+
+function pad(x,y) {
+	var s=x.toFixed(2).toString();
+	return spc(y-s.length)+s;
+}
+
+function draw() {
+
+	ctx.fillStyle="#000000";
+	ctx.fillRect(0,0,canvas.width,canvas.height);
+
+	ctx.fillStyle="#00FF00";
+	ctx.font="16px monospace";
+	ctx.fillText(pad(rx,7)+","+pad(ry,7)+","+pad(rz,7),32,32);
+	ctx.fillText(pad(ax,7)+","+pad(ay,7)+","+pad(az,7),32,64);
+	ctx.fillText(pad(gx,7)+","+pad(gy,7)+","+pad(gz,7),32,96);
+	ctx.fillText(pad(oa,7)+","+pad(ob,7)+","+pad(og,7),32,128);
+	
+	ctx.fillText(frames++,32,160);
+	
+}
+
+function main() {
+	
+	if(window.DeviceOrientationEvent) {
+		window.addEventListener("deviceorientation",handleOrientation);
+	}
+	
+	if(window.DeviceMotionEvent) {
+		window.addEventListener("devicemotion",handleMotion);
+	}
+	
+	setInterval(draw,1000/FPS);
+}
+
+window.addEventListener("DOMContentLoaded",main());
+
+		</script>
+	</body>
+</html>
