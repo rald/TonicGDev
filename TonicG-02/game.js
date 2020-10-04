@@ -63,7 +63,7 @@ function Pixel(x,y,color,size) {
 	this.dx=x;
 	this.dx=y;
 
-	this.delay=5;
+	this.delay=10;
 
 	this.epsilon=0.0001;
 
