@@ -71,19 +71,19 @@ function box(font,x0,y0,x1,y1,colors) {
 	var h=y1-y0+1;
 
 	for(var i=0;i<w-2;i++) {
-		drawBitmap(font,196,(x+i+1)*font.width*font.size,y*font.width*font.size,colors);
-		drawBitmap(font,196,(x+i+1)*font.width*font.size,(y+h-1)*font.width*font.size,colors);
+		drawBitmap(font,196,(x+i+1)*font.width*font.size,y*font.height*font.size,colors);
+		drawBitmap(font,196,(x+i+1)*font.width*font.size,(y+h-1)*font.height*font.size,colors);
 	}
 
 	for(var j=0;j<h-2;j++) {
-		drawBitmap(font,179,x*font.width*font.size,(y+j+1)*font.width*font.size,colors);
-		drawBitmap(font,179,(x+w-1)*font.width*font.size,(y+j+1)*font.width*font.size,colors);
+		drawBitmap(font,179,x*font.width*font.size,(y+j+1)*font.height*font.size,colors);
+		drawBitmap(font,179,(x+w-1)*font.width*font.size,(y+j+1)*font.height*font.size,colors);
 	}
 
-	drawBitmap(font,218,x*font.width*font.size,y*font.width*font.size,colors);
-	drawBitmap(font,191,(x+w-1)*font.width*font.size,y*font.width*font.size,colors);
-	drawBitmap(font,192,x*font.width*font.size,(y+h-1)*font.width*font.size,colors);
-	drawBitmap(font,217,(x+w-1)*font.width*font.size,(y+h-1)*font.width*font.size,colors);
+	drawBitmap(font,218,x*font.width*font.size,y*font.height*font.size,colors);
+	drawBitmap(font,191,(x+w-1)*font.width*font.size,y*font.height*font.size,colors);
+	drawBitmap(font,192,x*font.width*font.size,(y+h-1)*font.height*font.size,colors);
+	drawBitmap(font,217,(x+w-1)*font.width*font.size,(y+h-1)*font.height*font.size,colors);
 	
 }
 
