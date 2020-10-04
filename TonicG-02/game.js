@@ -63,7 +63,7 @@ function Pixel(x,y,color,size) {
 	this.dx=x;
 	this.dx=y;
 
-	this.speed=10;
+	this.delay=5;
 
 	this.epsilon=0.0001;
 
@@ -73,8 +73,8 @@ function Pixel(x,y,color,size) {
 	}
 
 	this.update=function() {
-		this.vx=(this.dx-this.x)/this.speed;
-		this.vy=(this.dy-this.y)/this.speed;
+		this.vx=(this.dx-this.x)/this.delay;
+		this.vy=(this.dy-this.y)/this.delay;
 
 		this.x+=this.vx;
 		this.y+=this.vy;
