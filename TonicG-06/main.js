@@ -1,4 +1,4 @@
-let fps=60;
+let fps = 24;
 let game=new Game();
 
 game.resize();
