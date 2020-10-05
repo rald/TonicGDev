@@ -113,7 +113,7 @@ function drawWindow(font,x,y,w,h,colors) {
 
 
 function draw() {	
-	fillWindow(bitmapFont,11*16+1,0,0,maxx,maxy,["#000000","#FFFFFF"]);
+	fillWindow(bitmapFont,177,0,0,maxx,maxy,["#000000","#FFFFFF"]);
 	drawWindow(bitmapFont,3,3,16,8,["#0000FF","#FFFFFF"]);
 	print(bitmapFont,"Hello World",4,4,["#000000","#00FF00"]);
 }
@@ -132,6 +132,8 @@ function resize() {
 
 	i=0; j=0; k=maxx; l=maxy;
 
+	draw();
+
 }
 
 
@@ -144,7 +146,7 @@ function main() {
 
 	window.onresize=resize;
 
-	setInterval(draw,1000/FPS);
+	draw();
 }
 
 
