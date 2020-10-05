@@ -35,14 +35,4 @@ class Graphics {
 		ctx.fillRect(x,y,w,h);
 	}
 
-	static drawBitmap(ctx,frame,x,y,size,bitmap,palette) {
-		for(let j=0;j<bitmap.height;j++) {
-			for(let i=0;i<bitmap.width;i++) {
-				let colorIndex=bitmap.pixels[i+j*bitmap.width+frame*bitmap.width*bitmap.height];
-				let color=palette[colorIndex];
-				this.fillRect(ctx,x+i*size,y+j*size,size,size,color);
-			}
-		}
-	}
-	
 }
