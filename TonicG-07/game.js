@@ -38,13 +38,14 @@ function draw() {
 	for(let j=0;j<boardSize;j++) {
 		for(let i=0;i<boardSize;i++) {
 
+
 			let boxWidth=Math.floor(canvas.width/boardSize);
 			let boxHeight=Math.floor(canvas.height/boardSize);
 
 			let x=i*boxWidth+(boxWidth-font.width*fontSize)/2;
 			let y=j*boxHeight+(boxHeight-font.height*fontSize)/2;
 
-      Graphics.drawRect(ctx,i*boxWidth,j*boxHeight,boxWidth,boxHeight,palette[6]);
+//      Graphics.drawRect(ctx,i*boxWidth,j*boxHeight,boxWidth,boxHeight,palette[6]);
 
 			Graphics.drawText(ctx,board[j][i],x,y,fontSize,font,["transparent",palette[6]]);
 		}
@@ -56,7 +57,7 @@ function draw() {
 
 function init() {
 	boardSize=4;
-  fontSize=8;
+  fontSize=4;
 
 	shuffle(dice);
 	
