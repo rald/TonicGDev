@@ -1,30 +1,48 @@
-class Game {
+let canvas=document.getElementById("canvas");
+let ctx=canvas.getContext("2d");
 
-	constructor() {
-		this.canvas=document.getElementById("canvas");
-		this.ctx=canvas.getContext("2d");
-	}
 
-	resize() {
-		this.canvas.width=window.innerWidth;
-		this.canvas.height=window.innerHeight;
 
-		this.maxX=Math.floor(this.canvas.width/(font.width*2));
-		this.maxY=Math.floor(this.canvas.height/(font.height*2));
-
-		this.terminal=new Terminal(0,0,this.maxX,this.maxY);
-
-		this.draw();
-	}
-
-	draw() {
-
-		Graphics.fillRect(this.ctx,0,0,this.canvas.width,this.canvas.height,"#000000");
-
-		this.terminal.clear();
-		this.terminal.box(3,3,10,5,["#000000","#FFFFFF"]);
-		this.terminal.draw(this.ctx,2,font);
-
-	}
-
+function rnd(x) {
+	return Math.floor(Math.random()*x);
 }
+
+
+function resize() {
+	canvas.width=window.innerWidth;
+	canvas.height=window.innerHeight;
+
+	Graphics.fillRect(ctx,0,0,canvas.width,canvas.height,palette[0]);
+}
+
+
+
+function draw() {
+	let size=4;
+	let maxX=Math.floor(canvas.width/(font.width*size));
+	let maxY=Math.floor(canvas.height/(font.height*size));
+	let x=rnd(maxX)*font.height*size;
+	let y=rnd(maxY)*font.width*size;
+	let ch="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+	let fg,bg;
+	do {
+		fg=rnd(palette.length);
+		bg=rnd(palette.length);
+	} while(fg==bg);
+
+	Graphics.drawBitmap(ctx,ch[rnd(ch.length)].charCodeAt(0),x,y,size,font,[palette[bg],palette[fg]]);
+}
+
+
+
+function main() {
+	resize();
+	window.onresize=resize;
+
+	setInterval(draw,10);
+}
+
+
+
+main();
