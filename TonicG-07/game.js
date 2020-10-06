@@ -1,9 +1,9 @@
 let canvas=document.getElementById("canvas");
 let ctx=canvas.getContext("2d");
 
-let boxSize;
+let boardSize;
 let board;
-let fontSize=4;
+let fontSize;
 
 function rnd(x) {
 	return Math.floor(Math.random()*x);
@@ -31,10 +31,10 @@ function draw() {
 
 	Graphics.fillRect(ctx,0,0,canvas.width,canvas.height,palette[0]);
 
-	for(let j=0;j<boxSize;j++) {
-		for(let i=0;i<boxSize;i++) {
-			let x=i*font.width*size;
-			let y=j*font.height*size;
+	for(let j=0;j<boardSize;j++) {
+		for(let i=0;i<boardSize;i++) {
+			let x=i*font.width*fontSize;
+			let y=j*font.height*fontSize;
 			Graphics.drawText(ctx,board[j][i],x,y,fontSize,font,[palette[0],palette[6]]);
 		}
 	}
@@ -44,16 +44,18 @@ function draw() {
 
 
 function init() {
+	boardSize=4;
+  fontSize=4;
 
 	shuffle(dice);
 	
-	boardSize=4;
 	board=new Array(boardSize);
 	let k=0;
 	for(let j=0;j<boardSize;j++) {
 		board[j]=new Array(boardSize);
 		for(let i=0;i<boardSize;i++) {
-			board[j][i]=dice[k++][rnd(6)];
+			board[j][i]=dice[k][rnd(dice[j].length)];
+			k++;
 		}
 	}
 	
