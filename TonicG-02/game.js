@@ -1,17 +1,5 @@
-var canvas=document.getElementById("canvas");
-var ctx=canvas.getContext("2d");
-
-var FPS = 60;
-
-var bitmapFont;
-
-var colors=["transparent","#00FF00"];
-
-
-
-function radians(degrees) {
-	return degrees*Math.PI/180; 
-}
+let canvas=document.getElementById("canvas");
+let ctx=canvas.getContext("2d");
 
 
 
@@ -20,49 +8,46 @@ function rnd(x) {
 }
 
 
+function resize() {
+	canvas.width=window.innerWidth;
+	canvas.height=window.innerHeight;
 
-function Bitmap(width,height,frames,size,pixels) {
-	this.width=width;
-	this.height=height;
-	this.frames=frames;
-	this.size=size;
-	this.pixels=pixels;
-}
-
-
-
-function drawBitmap(bitmap,frame,x,y,colors) {
-	for(var j=0;j<bitmap.height;j++) {
-		for(var i=0;i<bitmap.width;i++) {
-			var index=bitmap.pixels[i+j*bitmap.width+frame*bitmap.width*bitmap.height];
-			var color=colors[index];
-			if(color!="transparent"){
-				ctx.fillStyle=color;
-				ctx.fillRect(x+i*bitmap.size,y+j*bitmap.size,bitmap.size,bitmap.size);
-			}
-		}
-	}
+	draw();
 }
 
 
 
 function draw() {
-	ctx.fillStyle="#000000";
-	ctx.fillRect(0,0,canvas.width,canvas.height);
+	let h="0123456789ABCDEF";
+	let size=4;
+	let ox=16;
+	let oy=16;
 
-	for(var i=0;i<256;i++) {
-		ctx.strokeStyle="#FFFFFF";
-		ctx.strokeRect((i%16)*(bitmapFont.width+1)*bitmapFont.size,Math.floor(i/16)*(bitmapFont.height+1)*bitmapFont.size,(bitmapFont.width)*bitmapFont.size,(bitmapFont.height)*bitmapFont.size);
-		drawBitmap(bitmapFont,i,(i%16)*(bitmapFont.width+1)*bitmapFont.size,Math.floor(i/16)*(bitmapFont.height+1)*bitmapFont.size,colors);
+
+	Graphics.fillRect(ctx,0,0,canvas.width,canvas.height,palette[0]);
+
+	for(let i=0;i<16;i++) {
+		let x=(i+1)*font.width*(size+1)+ox;
+		let y=(i+1)*font.height*(size+1)+oy;
+		Graphics.drawRect(ctx,x,oy,font.width*size,font.height*size,palette[10]);
+		Graphics.drawRect(ctx,ox,y,font.width*size,font.height*size,palette[10]);
+		Graphics.drawBitmap(ctx,h.charCodeAt(i),x,oy,size,font,[palette[0],palette[12]]);
+		Graphics.drawBitmap(ctx,h.charCodeAt(i),ox,y,size,font,[palette[0],palette[12]]);
+	}
+
+	for(let i=0;i<256;i++) {
+		let x=(i%16+1)*font.width*(size+1)+ox;
+		let y=Math.floor(i/16+1)*font.height*(size+1)+oy;
+		Graphics.drawRect(ctx,x,y,font.width*size,font.height*size,palette[10]);
+		Graphics.drawBitmap(ctx,i,x,y,size,font,[palette[0],palette[6]]);
 	}
 }
 
 
-function main() {
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
 
-	bitmapFont=new Bitmap(8,8,256,4,font);
+function main() {
+	resize();
+	window.onresize=resize;
 
 	draw();
 }
