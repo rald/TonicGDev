@@ -45,7 +45,7 @@ class Graphics {
 		}
 	}
 	
-	static fillText(ctx,text,x,y,size,bitmap,palette) {
+	static drawText(ctx,text,x,y,size,bitmap,palette) {
 		for(let i=0;i<text.length;i++) {
 			this.drawBitmap(ctx,text.charCodeAt(i),x+i*bitmap.width*size,y,size,bitmap,palette);
 		}
