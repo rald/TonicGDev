@@ -35,6 +35,9 @@ function draw() {
 		for(let i=0;i<boardSize;i++) {
 			let x=i*font.width*fontSize;
 			let y=j*font.height*fontSize;
+
+      Graphics.drawRect();
+
 			Graphics.drawText(ctx,board[j][i],x,y,fontSize,font,[palette[0],palette[6]]);
 		}
 	}
