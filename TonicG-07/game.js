@@ -5,6 +5,8 @@ let boardSize;
 let board;
 let fontSize;
 
+
+
 function rnd(x) {
 	return Math.floor(Math.random()*x);
 }
@@ -17,6 +19,7 @@ function resize() {
 }
 
 
+
 function shuffle(array) {
 	for(let i=array.length-1;i>0;i--) {
 		let j=rnd(i+1);
@@ -27,18 +30,23 @@ function shuffle(array) {
 }
 
 
+
 function draw() {
 
 	Graphics.fillRect(ctx,0,0,canvas.width,canvas.height,palette[0]);
 
 	for(let j=0;j<boardSize;j++) {
 		for(let i=0;i<boardSize;i++) {
-			let x=i*font.width*fontSize;
-			let y=j*font.height*fontSize;
 
-      Graphics.drawRect();
+			let boxWidth=Math.floor(canvas.width/boardSize);
+			let boxHeight=Math.floor(canvas.height/boardSize);
 
-			Graphics.drawText(ctx,board[j][i],x,y,fontSize,font,[palette[0],palette[6]]);
+			let x=i*boxWidth+(boxWidth-font.width*fontSize)/2;
+			let y=j*boxHeight+(boxHeight-font.height*fontSize)/2;
+
+      Graphics.drawRect(ctx,i*boxWidth,j*boxHeight,boxWidth,boxHeight,palette[6]);
+
+			Graphics.drawText(ctx,board[j][i],x,y,fontSize,font,["transparent",palette[6]]);
 		}
 	}
 
@@ -48,7 +56,7 @@ function draw() {
 
 function init() {
 	boardSize=4;
-  fontSize=4;
+  fontSize=8;
 
 	shuffle(dice);
 	
