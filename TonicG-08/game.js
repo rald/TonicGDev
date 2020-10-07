@@ -6,7 +6,7 @@ let board;
 let graph;
 let choices;
 let words;
-
+let html;
 
 
 function rnd(x) {
@@ -25,22 +25,27 @@ function shuffle(array) {
 }
 
 
-
-function dfs(x,y,depth,trie) {
+/*
+function dfs(x,y,depth,trieNode) {
 
 	if(x<0 || x>=boardSize || y<0 || y>=boardSize) return;
 
-	if(graph[y][x]) return;
-
-  let k=board[y][x].toLowerCase().charCodeAt(0)-65;
-
-	let trieNode=trie.next[k];
+  if(graph[y][x]) return;
+  
+  html+=board[y][x];
+  
+  let k=board[y][x].toUpperCase().charCodeAt(0)-65;
+  
+	trieNode=trieNode.next[k];
 
 	if(trieNode==null) return;
 	
 	choices[depth]=board[y][x];
 
-	if(trieNode.mark) words.push(choices.substr(1,depth));
+	if(trie.mark) {
+    let l=""; for(let i=0;i<depth;i++) l+=choices[i];
+	  words.push(l);
+	}
 
 	graph[y][x]=true;
 	
@@ -52,13 +57,31 @@ function dfs(x,y,depth,trie) {
 
 	graph[y][x]=false;
 }
+*/
 
+function dfs(x,y,depth,trie) {
+	if(x<0 || x>=boardSize || y<0 || y>=boardSize) return;
 
+  if(graph[y][x]) return;
+
+  html+=board[y][x];
+
+	graph[y][x]=true;
+	
+	for(let j=-1;j<=1;j++) {
+		for(let i=-1;i<=1;i++) {
+			if(i || j) dfs(x+i,y+j,depth+1,trie);
+		}
+	}
+
+	graph[y][x]=false;
+  
+}
 
 function load() {
-	trie=new Trie(null);
+  trie=new Trie("");
 	for(let i=0;i<dict.length;i++) {
-		Trie.add(trie,dict[i]);
+		Trie.add(trie,dict[i].toUpperCase());	
 	}
 }
 
@@ -66,18 +89,17 @@ function load() {
 
 function init() {
 
-  load();
-
 	boardSize=4;
 
+  load();
+
 	shuffle(dice);
-	
 	board=new Array(boardSize);
 	let k=0;
 	for(let j=0;j<boardSize;j++) {
 		board[j]=new Array(boardSize);
 		for(let i=0;i<boardSize;i++) {
-			board[j][i]=dice[k][rnd(dice[j].length)];
+			board[j][i]=dice[k][rnd(dice[j].length)].toUpperCase();
 			k++;
 		}
 	}
@@ -101,13 +123,26 @@ function init() {
 }
 
 
+function walk(trie,depth) {
+  if(trie.mark) {
+    let l=""; for(let i=0;i<depth;i++) l+=choices[i];
+    html+=l+"<br>";
+  }
+  for(let i=0;i<26;i++) {
+    if(trie.next[i]!=null) {
+      choices[depth]=String.fromCharCode(i+65);
+      walk(trie.next[i],depth+1);
+    }
+  }
+}
+
 
 function main() {
 
-	init();
+	html="";
 
-	let html="";
-
+  init();
+	
 	for(let j=0;j<boardSize;j++) {
 		for(let i=0;i<boardSize;i++) {
 			html+=board[j][i];
@@ -118,6 +153,8 @@ function main() {
 	for(let i=0;i<words.length;i++) {
 	  html+=words[i]+"<br>";
 	}
+	
+	html+="--- OK ---";
 
 	view.innerHTML=html;	
 }

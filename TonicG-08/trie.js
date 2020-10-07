@@ -12,7 +12,7 @@ class Trie {
 	static add(root,word) {
 		let curr=root;
 		for(let i=0;i<word.length;i++) {
-			let j=word[i].toLowerCase();
+			let j=word[i].toUpperCase();
 			let k=j.charCodeAt(0)-65;
 			curr.next[k]=new Trie(j);
 			curr=curr.next[k];
