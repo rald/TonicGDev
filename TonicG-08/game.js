@@ -7,6 +7,8 @@ let graph;
 let choices;
 let words;
 
+
+
 function rnd(x) {
 	return Math.floor(Math.random()*x);
 }
@@ -23,19 +25,20 @@ function shuffle(array) {
 }
 
 
+
 function dfs(x,y,depth,trieNode) {
 
 	if(x<0 || x>=boardSize || y<0 || y>=boardSize) return;
 
 	if(graph[y][x]) return;
 
-	let trieNode=trie->next[board[y][x].toLowerCase().charCodeAt(0)-65];
+	trieNode=trie->next[board[y][x].toLowerCase().charCodeAt(0)-65];
 
 	if(trieNode==null) return;
 	
 	choices[depth]=board[y][x];
 
-	if(trieNode->mark) words.push(choices.substr(1,depth));
+	if(trieNode.mark) words.push(choices.substr(1,depth));
 
 	graph[y][x]=true;
 	
@@ -47,6 +50,7 @@ function dfs(x,y,depth,trieNode) {
 
 	graph[y][x]=false;
 }
+
 
 
 function init() {
