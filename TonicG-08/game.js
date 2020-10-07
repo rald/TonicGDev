@@ -26,13 +26,15 @@ function shuffle(array) {
 
 
 
-function dfs(x,y,depth,trieNode) {
+function dfs(x,y,depth,trie) {
 
 	if(x<0 || x>=boardSize || y<0 || y>=boardSize) return;
 
 	if(graph[y][x]) return;
 
-	trieNode=trie.next[board[y][x].toLowerCase().charCodeAt(0)-65];
+  let k=board[y][x].toLowerCase().charCodeAt(0)-65;
+
+	let trieNode=trie.next[k];
 
 	if(trieNode==null) return;
 	
@@ -53,9 +55,20 @@ function dfs(x,y,depth,trieNode) {
 
 
 
+function load() {
+	trie=new Trie(null);
+	for(let i=0;i<dict.length;i++) {
+		Trie.add(trie,dict[i]);
+	}
+}
+
+
+
 function init() {
+
+  load();
+
 	boardSize=4;
-  fontSize=4;
 
 	shuffle(dice);
 	
@@ -79,35 +92,33 @@ function init() {
 
 	choices=new Array(boardSize*boardSize);
 	words=[];	
-	for(let j=0;j<boardSize;j++) {
+  for(let j=0;j<boardSize;j++) {
 		for(let i=0;i<boardSize;i++) {
 			dfs(i,j,0,trie);
 		}
 	}
-}
 
-
-
-function load() {
-	trie=new Trie();
-	for(let i=0;i<dict.length;i++) {
-		Trie.add(trie,dict[i]);
-	}
 }
 
 
 
 function main() {
-	load();
+
 	init();
 
 	let html="";
-	for(j=0;j<boardSize;j++) {
-		for(i=0;i<boardSize;i++) {
+
+	for(let j=0;j<boardSize;j++) {
+		for(let i=0;i<boardSize;i++) {
 			html+=board[j][i];
 		}
 		html+="<br>";
 	}
+	
+	for(let i=0;i<words.length;i++) {
+	  html+=words[i]+"<br>";
+	}
+
 	view.innerHTML=html;	
 }
 
