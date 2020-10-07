@@ -32,7 +32,7 @@ function dfs(x,y,depth,trieNode) {
 
 	if(graph[y][x]) return;
 
-	trieNode=trie->next[board[y][x].toLowerCase().charCodeAt(0)-65];
+	trieNode=trie.next[board[y][x].toLowerCase().charCodeAt(0)-65];
 
 	if(trieNode==null) return;
 	
