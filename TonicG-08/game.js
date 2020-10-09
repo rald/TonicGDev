@@ -9,6 +9,7 @@ let words;
 let html;
 
 
+
 function rnd(x) {
 	return Math.floor(Math.random()*x);
 }
@@ -25,58 +26,38 @@ function shuffle(array) {
 }
 
 
-/*
-function dfs(x,y,depth,trieNode) {
+
+function dfs(x,y,depth,trie) {
 
 	if(x<0 || x>=boardSize || y<0 || y>=boardSize) return;
 
   if(graph[y][x]) return;
-  
-  html+=board[y][x];
   
   let k=board[y][x].toUpperCase().charCodeAt(0)-65;
   
-	trieNode=trieNode.next[k];
+	let trieNode=trie.next[k];
 
 	if(trieNode==null) return;
-	
-	choices[depth]=board[y][x];
 
-	if(trie.mark) {
+	choices[depth++]=board[y][x];
+
+	if(trieNode.mark) {
     let l=""; for(let i=0;i<depth;i++) l+=choices[i];
-	  words.push(l);
+	  if(l.length>=3 && words.indexOf(l)==-1) words.push(l);
 	}
 
 	graph[y][x]=true;
 	
 	for(let j=-1;j<=1;j++) {
 		for(let i=-1;i<=1;i++) {
-			if(i || j) dfs(x+i,y+j,depth+1,trieNode);
+			if(i || j) dfs(x+i,y+j,depth,trieNode);
 		}
 	}
 
 	graph[y][x]=false;
 }
-*/
 
-function dfs(x,y,depth,trie) {
-	if(x<0 || x>=boardSize || y<0 || y>=boardSize) return;
 
-  if(graph[y][x]) return;
-
-  html+=board[y][x];
-
-	graph[y][x]=true;
-	
-	for(let j=-1;j<=1;j++) {
-		for(let i=-1;i<=1;i++) {
-			if(i || j) dfs(x+i,y+j,depth+1,trie);
-		}
-	}
-
-	graph[y][x]=false;
-  
-}
 
 function load() {
   trie=new Trie("");
@@ -142,20 +123,22 @@ function main() {
 	html="";
 
   init();
-	
+
 	for(let j=0;j<boardSize;j++) {
 		for(let i=0;i<boardSize;i++) {
 			html+=board[j][i];
 		}
 		html+="<br>";
 	}
+
+	html+="<br>";
+
 	
 	for(let i=0;i<words.length;i++) {
-	  html+=words[i]+"<br>";
+		if(i!=0) html+=", "
+	  html+=words[i];
 	}
 	
-	html+="--- OK ---";
-
 	view.innerHTML=html;	
 }
 
