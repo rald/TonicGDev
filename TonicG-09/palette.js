@@ -1,4 +1,4 @@
-var palette=[
+let palette=[
 	"#1a1c2c",
 	"#5d275d",
 	"#b13e53",

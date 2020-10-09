@@ -1,4 +1,4 @@
-var font={
+let font={
 	"width":8,
 	"height":8,
 	"frames":256,
