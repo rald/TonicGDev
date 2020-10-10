@@ -11,9 +11,8 @@ let bitmap;
 function draw() {
 	Graphics.fillRect(ctx,0,0,canvas.width,canvas.height,palette[0]);
 
-	bitmap.drawPoint(0,0,palette[6]);
+  Graphics.drawBitmap(ctx,0,0,0,1,bitmap,palette);
 
-	Graphics.drawBitmap(ctx,0,0,0,4,bitmap,palette);
 }
 
 
@@ -25,7 +24,7 @@ function main() {
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 
-	bitmap=new Bitmap(256,256);
+	bitmap=new Bitmap(12,256,256);
 
   draw();
 }
@@ -33,4 +32,3 @@ function main() {
 
 
 main();
-s
